@@ -19,6 +19,23 @@ public class User {
     private String phone;
     @Column(name = "password")
     private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "role")
+    private UserRole role;
+
+    public User(){
+
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     public int getId() {
         return id;
     }
