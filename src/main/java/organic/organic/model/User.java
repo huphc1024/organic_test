@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_user")
+@Table(name = "user_test")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
