@@ -1,52 +1,52 @@
-package organic.organic.dao;
+package organic.organic.dao.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import organic.organic.model.User;
+import organic.organic.model.user.Role;
 
 @Service
-public class UserService {
+public class RoleService {
     @Autowired
-    UserRepository userReponsitory;
+    RoleRepository roleRepository;
 
     public ServiceResult findAll(){
         ServiceResult result = new ServiceResult();
-        result.setData(userReponsitory.findAll());
+        result.setData(roleRepository.findAll());
         return result;
     }
 
     public ServiceResult findById(int id) {
         ServiceResult result = new ServiceResult();
-        User user = userReponsitory.findById(id).orElse(null);
-        result.setData(user);
+        Role userRole = roleRepository.findById(id).orElse(null);
+        result.setData(userRole);
         return result;
     }
 
-    public ServiceResult create(User user) {
+    public ServiceResult create(Role userRole) {
         ServiceResult result = new ServiceResult();
-        result.setData(userReponsitory.save(user));
+        result.setData(roleRepository.save(userRole));
         return result;
     }
 
-    public ServiceResult update(User user) {
+    public ServiceResult update(Role userRole) {
         ServiceResult result = new ServiceResult();
-        if (!userReponsitory.findById(user.getId()).isPresent()) {
+        if (!roleRepository.findById(userRole.getId()).isPresent()) {
             result.setStatus(ServiceResult.Status.FAILED);
-            result.setMessage("User Not Found");
+            result.setMessage("UserRole Not Found");
         } else {
-            result.setData(userReponsitory.save(user));
+            result.setData(roleRepository.save(userRole));
         }
         return result;
     }
 
     public ServiceResult delete(int id) {
         ServiceResult result = new ServiceResult();
-        User user = userReponsitory.findById(id).orElse(null);
-        if (user == null) {
+        Role userRole = roleRepository.findById(id).orElse(null);
+        if (userRole == null) {
             result.setStatus(ServiceResult.Status.FAILED);
-            result.setMessage("User Not Found");
+            result.setMessage("UserRole Not Found");
         } else {
-            userReponsitory.deleteById(id);
+            roleRepository.deleteById(id);
             result.setMessage("success");
         }
         return result;
