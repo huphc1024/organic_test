@@ -1,9 +1,11 @@
 package organic.organic.model.user;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 
 @Entity
 @Table(name = "tbl_user")
@@ -22,12 +24,14 @@ public class User {
     }
 
     @Column(name = "username")
+    @NotEmpty(message = "*Please provide your Username")
     private  String username;
     @Column(name = "email")
     private String email;
     @Column(name = "phone")
     private String phone;
     @Column(name = "password")
+    @NotEmpty(message = "*Please provide your password")
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
