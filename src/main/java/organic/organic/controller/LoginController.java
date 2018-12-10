@@ -18,10 +18,6 @@ public class LoginController {
     private UserService userService;
 
 
-    @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
-    public ResponseEntity<ServiceResult> login(){
-        return new ResponseEntity<ServiceResult>(userService.findAll(), HttpStatus.OK);
-    }
 
 
 

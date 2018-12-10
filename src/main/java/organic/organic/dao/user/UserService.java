@@ -7,6 +7,7 @@ import organic.organic.model.user.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -27,10 +28,8 @@ public class UserService {
         userReponsitory.save(user);
     }
 
-    public ServiceResult findAll(){
-        ServiceResult result = new ServiceResult();
-        result.setData(userReponsitory.findAll());
-        return result;
+    public List<User> findAll(){
+        return userReponsitory.findAll();
     }
 
     public ServiceResult findById(int id) {

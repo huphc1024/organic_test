@@ -9,6 +9,8 @@ import organic.organic.dao.user.ServiceResult;
 import organic.organic.dao.user.UserService;
 import organic.organic.model.user.User;
 
+import java.util.List;
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @Controller
 @RequestMapping("/api")
 public class UserController {
@@ -17,8 +19,8 @@ public class UserController {
 
     /* ---------------- GET ALL USER ------------------------ */
     @GetMapping("/users")
-    public ResponseEntity<ServiceResult> findAllCustomer() {
-        return new ResponseEntity<ServiceResult>(userService.findAll(), HttpStatus.OK);
+    public @ResponseBody List<User> findAllCustomer() {
+        return userService.findAll();
     }
     /* ---------------- GET USER BY ID ------------------------ */
     @GetMapping("/user/{id}")
