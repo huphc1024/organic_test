@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @Controller
 @RequestMapping("/api")
 public class ShopController {

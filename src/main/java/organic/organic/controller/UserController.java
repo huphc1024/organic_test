@@ -10,7 +10,7 @@ import organic.organic.dao.user.UserService;
 import organic.organic.model.user.User;
 
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @Controller
 @RequestMapping("/api")
 public class UserController {
