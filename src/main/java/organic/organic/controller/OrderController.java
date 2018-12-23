@@ -1,6 +1,7 @@
 package organic.organic.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import organic.organic.dao.order.*;
@@ -85,6 +86,39 @@ public class OrderController {
             }
             mess = "success";
         }
+        return mess;
+    }
+    @PutMapping("/order/{id_order}")
+    public @ResponseBody String update(@PathVariable int id_order, @RequestBody Orders order) {
+        String mess = "";
+        Orders orders = orderRepository.getOne(id_order);
+        orders.setRef_order_status_code(refOrderStatusRepository.findByCode(order.getRef_order_status_code().getCode()));
+        orders.setId(id_order);
+        if(orderRepository.save(orders) == null){
+            mess = "fail";
+        }
+        else{
+            mess = "success";
+        }
+        return mess;
+    }
+
+    @DeleteMapping("/order/{id_order}")
+    public @ResponseBody String delete(@PathVariable int id_order) {
+        String mess = "";
+        try {
+            for (Integer i : orderItemRepository.listOrdersItemByOrder(id_order)
+                 ) {
+                orderItemRepository.deleteById(i);
+            }
+            //orderItemRepository.deleteALlByOrderId(id_order);
+            System.out.print("SAI");
+            orderRepository.deleteById(id_order);
+            mess = "success";
+        }catch (Exception e){
+            mess = "fail";
+        }
+
         return mess;
     }
 
