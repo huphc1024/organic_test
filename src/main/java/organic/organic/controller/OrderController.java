@@ -34,11 +34,11 @@ public class OrderController {
         return orderRepository.findAll();
     }
 
-    @GetMapping("/order_id/{id}")
-    public @ResponseBody
-    int findOrderByidUser(@PathVariable int id) {
-        return orderRepository.findOrderByIdUser(id);
-    }
+//    @GetMapping("/order_id/{id}")
+//    public @ResponseBody
+//    int findOrderByidUser(@PathVariable int id) {
+//        return orderRepository.findOrderByIdUser(id);
+//    }
 
     @GetMapping("/ordersitems")
     public @ResponseBody
@@ -57,37 +57,50 @@ public class OrderController {
     }
 
 //     -- add order --
-    @PostMapping("/order/{payment_id}-{discount_code}-{status_code}")
-    public @ResponseBody String create(@PathVariable int payment_id, @PathVariable int discount_code,
-                                       @PathVariable String status_code, @RequestBody Orders orders) {
+    @PostMapping("/order/{id_user}/{payment_id}-{discount_code}/{id_product}-{quantity}")
+    public @ResponseBody String create(@PathVariable List<Integer> id_product, @PathVariable int discount_code,
+                                       @PathVariable int payment_id, @PathVariable List<Integer> quantity,
+                                       @RequestBody Orders orders, @PathVariable int id_user ) {
         Date date = new Date();
         String mess = "";
         orders.setPayment(paymentRepository.getOne(payment_id));
         orders.setTbl_discount_code(discountRepository.getOne(discount_code));
-        orders.setRef_order_status_code(refOrderStatusRepository.findByCode(status_code));
+        orders.setRef_order_status_code(refOrderStatusRepository.findByCode("w"));
         orders.setDate_order_placed(new Timestamp(date.getTime()));
+        orders.setTbl_user_id(id_user);
         if(orderRepository.save(orders) == null){
             mess = "fail";
         }
         else{
+            int id_order = orderRepository.findOrderByIdUser(id_user);
+            for (int i = 0; i < id_product.size(); i++) {
+                OrdersItem ordersItem = new OrdersItem();
+                ordersItem.setTbl_product_id(id_product.get(i));
+                ordersItem.setQuantity(quantity.get(i));
+                ordersItem.setOrders(orderRepository.getOne(id_order));
+                ordersItem.setRef_order_item_status_code(refOrderItemStatusRepository.findByCode("w"));
+                if(orderItemRepository.save(ordersItem) == null){
+                    return mess = "fail";
+                }
+            }
             mess = "success";
         }
         return mess;
     }
 
-    @PostMapping("/ordersitem/{order_id}-{code_status}")
-    public @ResponseBody String create(@PathVariable int order_id, @PathVariable String code_status,
-                                       @RequestBody OrdersItem ordersitem) {
-        String mess = "";
-        ordersitem.setOrders(orderRepository.getOne(order_id));
-        ordersitem.setRef_order_item_status_code(refOrderItemStatusRepository.findByCode(code_status));
-        if(orderItemRepository.save(ordersitem) == null){
-            mess = "fail";
-        }
-        else{
-            mess = "success";
-        }
-        return mess;
-    }
+//    @PostMapping("/ordersitem/{order_id}-{code_status}")
+//    public @ResponseBody String create(@PathVariable int order_id, @PathVariable String code_status,
+//                                       @RequestBody OrdersItem ordersitem) {
+//        String mess = "";
+//        ordersitem.setOrders(orderRepository.getOne(order_id));
+//        ordersitem.setRef_order_item_status_code(refOrderItemStatusRepository.findByCode(code_status));
+//        if(orderItemRepository.save(ordersitem) == null){
+//            mess = "fail";
+//        }
+//        else{
+//            mess = "success";
+//        }
+//        return mess;
+//    }
 
 }
