@@ -114,7 +114,7 @@ public class OrderController {
     public @ResponseBody String delete(@PathVariable int id_order) {
         String mess = "";
         try {
-            for (Integer i : orderItemRepository.listOrdersItemByOrder(id_order)
+            for (Integer i : orderItemRepository.listidOrdersItemByOrder(id_order)
                  ) {
                 orderItemRepository.deleteById(i);
             }
