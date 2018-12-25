@@ -46,6 +46,13 @@ public class OrderController {
     List<OrdersItem> findAllOrderItem() {
         return orderItemRepository.findAll();
     }
+    
+    @GetMapping("/ordersitemsbyorder/{id_order}")
+    public @ResponseBody
+    List<OrdersItem> findAllOrderItemByOrdersId(@PathVariable int id_order) {
+        return orderItemRepository.listOrdersItemByOrder(id_order);
+    }
+
 
     @GetMapping("/ordersitem/{id}")
     public @ResponseBody Optional<OrdersItem> findByIdOrdersItem(@PathVariable int id) {
