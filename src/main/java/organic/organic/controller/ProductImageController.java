@@ -36,6 +36,20 @@ public class ProductImageController {
 
         response.getOutputStream().close();
     }
+
+    @GetMapping("/product/{id_product}")
+    public void showImageIndex(@PathVariable("id_product") Integer id_product, HttpServletResponse response, HttpServletRequest request)
+            throws ServletException, IOException {
+
+
+        Shop item = productImageRepository.getImageIndexByIdProduct(id_product);
+        response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+        response.getOutputStream().write(item.getImage());
+
+
+        response.getOutputStream().close();
+    }
+
     /* ---------------- GET IMAGE PRODUCT ------------------------ */
     @GetMapping("/productimages/{id}")
     public @ResponseBody  List<Shop> listImage(@PathVariable("id") Integer itemId) {
